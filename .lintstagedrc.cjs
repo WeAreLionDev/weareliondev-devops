@@ -1,3 +1,3 @@
 module.exports = {
-  '{**/*,*}.{ts,tsx,json,js,jsx,md,astro,cjs}': 'yarn format',
+  '{**/*,*}.{ts,json,js,md,yml,mjs,cjs}': 'yarn format',
 }
