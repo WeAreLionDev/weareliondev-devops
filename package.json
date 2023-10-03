@@ -1,0 +1,40 @@
+{
+  "name": "weareliondev-devops",
+  "type": "module",
+  "version": "0.0.1",
+  "license": "Copyrighted",
+  "private": true,
+  "scripts": {
+    "prepare": "husky install",
+    "postinstall": "patch-package",
+    "format": "prettier --write --no-error-on-unmatched-pattern \"{**/*,*}.{ts,tsx,js,jsx,cjs,mjs,astro,yml}\"",
+    "format:ci": "prettier --check --no-error-on-unmatched-pattern \"{**/*,*}.{ts,tsx,js,jsx,cjs,mjs,astro}\"",
+    "commitlint": "commitlint --edit",
+    "env:check": "node ./deployment/env.mjs"
+  },
+  "dependencies": {
+    "zod": "^3.22.2"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@mindblowing/commitlint-config-jira": "^1.7.0",
+    "@mindblowing/commitlint-jira-utils": "^1.7.0",
+    "@mindblowing/commitlint-plugin-jira-rules": "^1.7.0",
+    "husky": "^8.0.3",
+    "jira-prepare-commit-msg": "^1.7.2",
+    "lint-staged": "^14.0.1",
+    "patch-package": "^8.0.0",
+    "postinstall": "^0.8.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18.18.0 <19",
+    "yarn": ">=1.22.19"
+  },
+  "volta": {
+    "node": "18.18.0"
+  },
+  "packageManager": "yarn@3.6.3"
+}

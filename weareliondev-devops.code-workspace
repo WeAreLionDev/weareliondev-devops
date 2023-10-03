@@ -1,0 +1,51 @@
+{
+  "folders": [
+    {
+      "name": "wearelion.dev DevOps repository",
+      "path": "./",
+      "prettier.configPath": "./.prettierrc.cjs"
+    },
+  ],
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode", // Prettier, code formatter
+      "redhat.vscode-yaml", //For Docker-Compose Yaml Files
+      "ms-azuretools.vscode-docker", //For Docker Containers and such, a really nice integration
+      "donjayamanne.githistory", //Helps with git, can compare files.
+      "orta.vscode-jest", //Jest for VScode
+      "chrisbibby.hide-node-modules", //Hide Node Modules with a click
+      "github.vscode-github-actions" // Github Actions"
+    ]
+  },
+  "settings": {
+    "yaml.schemas": {
+      "https://json.schemastore.org/github-workflow.json": ["*.github/workflows/*.yaml", "*.github/workflows/*.yml"],
+      "https://json.schemastore.org/github-action.json": ["action.yaml", "action.yml"]
+    },
+    "[github-actions-workflow]": {
+      "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "files.eol": "\n",
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "jest.autoRun": "off",
+    "jest.showCoverageOnLoad": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/node_modules": false
+    }
+  }
+}
