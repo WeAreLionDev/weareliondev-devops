@@ -31,7 +31,7 @@ inputs:
   source:
     description: 'Paths to files you want to copy seperated with a comma (,)'
     required: true
-    default: 'dist/**,.env'
+    default: 'dist/**,.env,deployment/apache/.htaccess'
 
   deploy-path:
     description: 'Deploy path in the host. Containing the system location where we want to deploy the build.'
