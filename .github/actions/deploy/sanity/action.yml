@@ -1,4 +1,4 @@
-name: 'Deploy to Plesk with SSH'
+name: 'Deploy Sanity to Plesk with SSH'
 
 description: 'Deploy to plesk using SSH, copy and backup previous build, deploy the new one, if anything fails rollback to previous one.'
 
@@ -31,7 +31,7 @@ inputs:
   source:
     description: 'Paths to files you want to copy seperated with a comma (,)'
     required: true
-    default: 'dist/**,.env,deployment/apache/.htaccess'
+    default: 'dist/**,deployment/sanity/.htaccess'
 
   deploy-path:
     description: 'Deploy path in the host. Containing the system location where we want to deploy the build.'
@@ -42,6 +42,12 @@ runs:
   using: 'composite'
 
   steps:
+    - name: ⚙️ Generate MD5 Hash
+      id: generate-md5-hash
+      shell: bash
+      run: |
+        echo "md5-hash=$(echo -n ${{ github.ref_name }}-${{ github.event.pull_request.id }} | md5sum | head -c 16 | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+
     - name: 🗑️ Delete and Backup Previous deployment to Server
       id: backup-and-delete
       uses: appleboy/ssh-action@v1.0.0
@@ -56,8 +62,8 @@ runs:
         envs: DEPLOY_PATH
         script_stop: true
         script: |
-          mkdir -p ~/temp-backup
-          mv ~/$DEPLOY_PATH/* ~/temp-backup/
+          mkdir -p ~/temp-backup-${{ steps.generate-md5-hash.outputs.md5-hash }}
+          mv ~/$DEPLOY_PATH/* ~/temp-backup-${{ steps.generate-md5-hash.outputs.md5-hash }}/
           rm -rf ~/$DEPLOY_PATH/*
 
     - name: 📀 Deploy build to Server
@@ -90,7 +96,7 @@ runs:
           cd ~/$DEPLOY_PATH
           mv ~/$DEPLOY_PATH/dist/* ~/$DEPLOY_PATH/
           rm -rf ~/$DEPLOY_PATH/dist
-          rm -rf ~/temp-backup
+          rm -rf ~/temp-backup-${{ steps.generate-md5-hash.outputs.md5-hash }}
 
     - name: 🧻 RollBack to previous Deployment to Server
       if: steps.deploy.outcome == 'failure' || steps.cleanup.outcome == 'failure' || steps.backup-and-delete.outcome == 'failure'
@@ -106,5 +112,5 @@ runs:
         envs: DEPLOY_PATH
         script_stop: true
         script: |
-          mv ~/temp-backup/* ~/$DEPLOY_PATH/
-          rm -rf ~/temp-backup
+          mv ~/temp-backup-${{ steps.generate-md5-hash.outputs.md5-hash }}/* ~/$DEPLOY_PATH/
+          rm -rf ~/temp-backup-${{ steps.generate-md5-hash.outputs.md5-hash }}
