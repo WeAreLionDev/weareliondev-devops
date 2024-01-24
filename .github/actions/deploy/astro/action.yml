@@ -42,11 +42,16 @@ runs:
   using: 'composite'
 
   steps:
+    - name: 🕒 Current Time
+      id: current-time
+      shell: bash
+      run: echo "now=$(date -u +%Y-%m-%dT%H-%M-%S-%N)" >> $GITHUB_OUTPUT
+
     - name: ⚙️ Generate MD5 Hash
       id: generate-md5-hash
       shell: bash
       run: |
-        echo "md5-hash=$(echo -n ${{ github.ref_name }}-${{ github.event.pull_request.id }} | md5sum | head -c 16 | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+        echo "md5-hash=$(echo -n ${{ github.ref_name }}-${{ github.event.pull_request.id }}-${{ steps.current-time.outputs.now }} | md5sum | head -c 16 | awk '{ print $1 }')" >> $GITHUB_OUTPUT
 
     - name: 🗑️ Delete and Backup Previous deployment to Server
       id: backup-and-delete
