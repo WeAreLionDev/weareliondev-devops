@@ -22,6 +22,14 @@ inputs:
     description: 'Cache yarn install state to speed up resolution when node_modules cache is activated (invalidated by lock/os/node-version/branch)'
     required: false
     default: 'false'
+  node-version:
+    description: 'Override version of Node.JS from package.json, install a specific version."
+    required: false
+    default: ''
+  yarn-version: 
+    description: 'Override version of Yarn from package.json, install a specific version.'
+    require: false
+    default: ''
   fontawesome:
     description: 'Apply FontAwesome NPM Token'
     required: false
@@ -38,9 +46,8 @@ runs:
     - name: ⚙️ Install Volta
       uses: volta-cli/action@v4
       with:
-        # Volta will read the Node.js and Yarn versions from the 'volta' field in 'package.json'
-        install-yarn: true
-        install-node: true
+        node-version: ${{ inputs.node-version }}
+        yarn-version: ${{ inputs.yarn-version }}
 
     - name: ⚙️ Expose yarn config as "$GITHUB_OUTPUT"
       id: yarn-config
