@@ -23,7 +23,7 @@ inputs:
     required: false
     default: 'false'
   node-version:
-    description: 'Override version of Node.JS from package.json, install a specific version."
+    description: 'Override version of Node.JS from package.json, install a specific version.'
     required: false
     default: ''
   yarn-version: 
